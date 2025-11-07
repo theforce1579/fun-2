@@ -8,6 +8,17 @@ export default [
   js.configs.recommended,
   reactPlugin.configs.flat.recommended,
   {
+    files: ["api/**/*.js", "server/**/*.js", "vite.config.js"],
+    languageOptions: {
+      globals: {
+        process: "readonly",
+        Buffer: "readonly",
+        console: "readonly",
+        fetch: "readonly"
+      }
+    }
+  },
+  {
     files: ["**/*.{js,jsx}"],
     languageOptions: {
       ecmaVersion: 2023,

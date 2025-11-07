@@ -13,6 +13,10 @@ function App() {
   const isBusy = status.state === "loading";
 
   const vibeChips = useMemo(() => {
+    if (recommendation?.vibeTags?.length) {
+      return recommendation.vibeTags;
+    }
+
     if (!recommendation?.raw) return [];
     const match = recommendation.raw.match(/vibe tags\s*[:-]\s*(.+)$/im);
     if (!match) return [];
