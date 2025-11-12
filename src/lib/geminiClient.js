@@ -1,7 +1,7 @@
 const API_ENDPOINT =
   import.meta.env.VITE_API_BASE?.replace(/\/$/, "") || "/api";
 const RETRIABLE_STATUS_CODES = new Set([408, 425, 429, 500, 502, 503, 504]);
-const MAX_ATTEMPTS = 4;
+const MAX_ATTEMPTS = 10;
 const INITIAL_BACKOFF_MS = 700;
 const BACKOFF_FACTOR = 1.7;
 const MAX_BACKOFF_MS = 4000;
