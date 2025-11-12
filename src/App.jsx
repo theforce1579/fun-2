@@ -1,14 +1,16 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { clsx } from "clsx";
 import { requestRecommendation } from "./lib/geminiClient.js";
 import "./App.css";
 
 const initialForm = { mood: "", artist: "" };
+const SUBMIT_DEBOUNCE_MS = 800;
 
 function App() {
   const [form, setForm] = useState(initialForm);
   const [recommendation, setRecommendation] = useState(null);
   const [status, setStatus] = useState({ state: "idle", message: "" });
+  const lastSubmitRef = useRef(0);
 
   const isBusy = status.state === "loading";
 
@@ -39,6 +41,16 @@ function App() {
       return;
     }
 
+    const now = Date.now();
+    if (isBusy && now - lastSubmitRef.current < SUBMIT_DEBOUNCE_MS) {
+      setStatus({
+        state: "error",
+        message: "Still working on that request. Give it a beat and try again."
+      });
+      return;
+    }
+
+    lastSubmitRef.current = now;
     setStatus({ state: "loading", message: "Curating the perfect track..." });
     setRecommendation(null);
 
